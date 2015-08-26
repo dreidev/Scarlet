@@ -1,4 +1,6 @@
 from django import template
+from fav.forms import FavoriteForm
+from fav.models import Favorite
 
 register = template.Library()
 
@@ -15,7 +17,16 @@ def get_app_name(object):
     return type(object)._meta.app_label
 
 
-def test_inclusion():
-    pass
+def get_favs(object, user):
+    # model_object = type(object).objects.get(id=object.id)
+    # favs = model_object.favorites.all()
+    if Favorite.objects.filter(object_id=object.id):
+        fav_value = "Unfavorite"
+    else:
+        fav_value = "Favorite"
+    return {"form": FavoriteForm(),
+            "target": object,
+            "user": user,
+            "fav_value": fav_value}
 
-register.inclusion_tag('fav/test_template_tag.html')(test_inclusion)
+register.inclusion_tag('fav/test_template_tag.html')(get_favs)

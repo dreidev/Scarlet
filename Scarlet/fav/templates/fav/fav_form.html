@@ -1,0 +1,20 @@
+{% load favorite_tags %}
+	<form method="POST" action="{% url "fav-create" %}" class="add-comment-form">
+		{% csrf_token %}
+		{{ form.errors }}
+		<br>
+		{% if target %}	
+			<input name="model" value="{% get_model_name target %}" hidden>
+			<input name="model_id" value="{{ target.id }}" hidden>
+			<input name="app_name" value="{% get_app_name target %}" hidden>
+		{% endif %}
+		<input id="id_user" name="user" value="{% if user.is_authenticated %}{{ user.id }}{% endif %}" hidden>
+		<input type="submit" value="{{fav_value}}" id="add-comment" />
+	</form>
+</body>
+</html>
+
+
+
+
+
