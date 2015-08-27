@@ -1,5 +1,10 @@
 {% load favorite_tags %}
-	<form method="POST" action="{% url "fav-create" %}" class="add-comment-form">
+{% load static %}
+
+        <script src="{% static 'js/jquery.js' %}"></script>
+        <script src="{% static 'js/fav.js' %}"></script>
+
+	<form method="POST" action="{% url "fav-create" %}" class="fav-form">
 		{% csrf_token %}
 		{{ form.errors }}
 		<br>
@@ -9,12 +14,7 @@
 			<input name="app_name" value="{% get_app_name target %}" hidden>
 		{% endif %}
 		<input id="id_user" name="user" value="{% if user.is_authenticated %}{{ user.id }}{% endif %}" hidden>
-		<input type="submit" value="{{fav_value}}" id="add-comment" />
+		<input type="submit" value="{{fav_value}}" id="fav-button" />
 	</form>
 </body>
 </html>
-
-
-
-
-

@@ -17,7 +17,7 @@ def get_app_name(object):
     return type(object)._meta.app_label
 
 
-def get_favs(object, user):
+def get_fav(object, user):
     # model_object = type(object).objects.get(id=object.id)
     # favs = model_object.favorites.all()
     if Favorite.objects.filter(object_id=object.id):
@@ -29,4 +29,4 @@ def get_favs(object, user):
             "user": user,
             "fav_value": fav_value}
 
-register.inclusion_tag('fav/test_template_tag.html')(get_favs)
+register.inclusion_tag('fav/fav_form.html')(get_fav)

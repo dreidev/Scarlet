@@ -1,11 +1,11 @@
 from .models import Favorite
 from .forms import FavoriteForm
-from django.views.generic import CreateView
 from django.contrib.contenttypes.models import ContentType
 from django.http import HttpResponse
+from django.views.generic.edit import FormView
 
 
-class FavCreateView(CreateView):
+class FavCreateView(FormView):
 
     form_class = FavoriteForm
     model = Favorite
@@ -20,13 +20,12 @@ class FavCreateView(CreateView):
             model_object = content_type.get_object_for_this_type(
                 id=self.request.POST['model_id'])
             fav.content_object = model_object
-            print ("object_id", model_object.id)
         except:
             pass
         favorite_object = Favorite.objects.filter(object_id=model_object.id)
+
         if favorite_object:
             favorite_object.delete()
         else:
             fav.save()
-            return HttpResponse("Object created")
-        return HttpResponse("Does  exist")
+        return HttpResponse("success")

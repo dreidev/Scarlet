@@ -1,5 +1,5 @@
 from django import forms
-from .models import Favorite
+from models import Favorite
 
 
 class FavoriteForm(forms.ModelForm):
