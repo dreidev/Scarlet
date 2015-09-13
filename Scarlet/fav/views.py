@@ -1,8 +1,9 @@
 from .models import Favorite
 from .forms import FavoriteForm
 from django.contrib.contenttypes.models import ContentType
-from django.http import HttpResponse
+from django.http import JsonResponse
 from django.views.generic.edit import FormView
+from django.contrib.auth import authenticate, login
 
 
 class FavCreateView(FormView):
@@ -12,6 +13,13 @@ class FavCreateView(FormView):
     template_name = 'fav/fav_form.html'
 
     def form_valid(self, form):
+        user = authenticate(username="ahmed", password="1234")
+        if user is not None:
+            login(self.request, user)
+        if not self.request.user.is_authenticated():
+            return JsonResponse({
+                'success': 0,
+                'error': "You have to sign in first"})
         fav = form.save(commit=False)
         try:
             content_type = ContentType.objects.get(
@@ -22,10 +30,11 @@ class FavCreateView(FormView):
             fav.content_object = model_object
         except:
             pass
-        favorite_object = Favorite.objects.filter(object_id=model_object.id)
+        favorite_object = Favorite.objects.filter(
+            object_id=model_object.id, user=self.request.user)
 
         if favorite_object:
             favorite_object.delete()
         else:
             fav.save()
-        return HttpResponse("success")
+        return JsonResponse({})

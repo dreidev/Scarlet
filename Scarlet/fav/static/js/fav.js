@@ -10,15 +10,19 @@ $(document).ready(function(){
 	            cache: false,
 	            processData: false,
 	            contentType: false,
-	            success: function() {
+	            success: function(json) {
+	            	if (json['success'] == 0) {
+                  alert(json['error'])                     
+                }
+	            	else {
 	              var fav_value = $("input[type=submit]").val();
 	              if(fav_value == "Favorite") {
 	              	$("input[type=submit]").val("Unfavorite");
 	              }
 	              else {
 	              	$("input[type=submit]").val("Favorite");
-	              }
-
+	             	 }
+					}
 	            },
 	            error: function(response) {
 	            	alert("error")
