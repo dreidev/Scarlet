@@ -38,8 +38,12 @@ $(document).ready(function(){
 		            processData: false,
 		            contentType: false,
 		            success: function(data) {
+		            	if (data['success'] == 0) {
+	                  alert(data['error'])                     
+	                }
+		            	else {
 		            	$("input[type=submit]").val("Favorite");
-		            	$("input[name=csrfmiddlewaretoken]").val(data['csrf'])
+		            	$("input[name=csrfmiddlewaretoken]").val(data['csrf'])}
 		            },
 		            error: function(response) {
 	            	alert("error in unfavoriting")

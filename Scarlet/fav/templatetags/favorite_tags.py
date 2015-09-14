@@ -33,8 +33,6 @@ register.inclusion_tag('fav/fav_form.html')(get_fav)
 
 
 def get_fav_nouser(object):
-    # model_object = type(object).objects.get(id=object.id)
-    # favs = model_object.favorites.all()
     fav_value = "Favorite"
     return {"form": FavoriteForm(),
             "target": object,
