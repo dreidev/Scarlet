@@ -13,4 +13,3 @@ class Favorite(models.Model):
     object_id = models.PositiveIntegerField(null=True)
     content_object = GenericForeignKey('content_type', 'object_id')
     user = models.ForeignKey(User, null=True, blank=True)
-    favorited = models.BooleanField(default=False)
