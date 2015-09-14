@@ -20,6 +20,7 @@ $(document).ready(function(){
 		            	else {
 		              
 		              	$("input[type=submit]").val("Unfavorite");
+		            	$("input[name=csrfmiddlewaretoken]").val(json['csrf'])
 						}
 		            },
 		            error: function(response) {
@@ -36,11 +37,12 @@ $(document).ready(function(){
 		            cache: false,
 		            processData: false,
 		            contentType: false,
-		            success: function() {
+		            success: function(data) {
 		            	$("input[type=submit]").val("Favorite");
+		            	$("input[name=csrfmiddlewaretoken]").val(data['csrf'])
 		            },
 		            error: function(response) {
-	            	alert("erro2r")
+	            	alert("error in unfavoriting")
 	            }
 	         	})
 	         } 
