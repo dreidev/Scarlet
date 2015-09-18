@@ -21,7 +21,7 @@ $(document).ready(function(){
 		            contentType: false,
 		            success: function(json) {
 		            	if (json['success'] == 0) {
-	                  alert(json['error'])                     
+	                  alert(json['error'])   
 	                }
 		            	else {
 
@@ -35,7 +35,7 @@ $(document).ready(function(){
 						}
 		            },
 		            error: function(response) {
-		            	alert("ajax error")
+		            	alert("error")
 		            }
 	         }); 
 
