@@ -4,7 +4,7 @@
         <script src="{% static 'js/jquery.js' %}"></script>
         <script src="{% static 'js/fav.js' %}"></script>
 
-	<form method="POST" action="{% url "fav-create" %}" class="fav-form">
+	<form method="" action="{% url "fav-create" %}" class="fav-form">
 		{% csrf_token %}
 		{{ form.errors }}
 		<br>

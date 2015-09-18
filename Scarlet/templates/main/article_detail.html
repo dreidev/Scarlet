@@ -4,4 +4,14 @@
 
 {{object.title}}
 
+{% if user.is_authenticated %}
+
+{{user.username}}
+
 {%  get_fav object user %}
+
+{% else %}
+
+{% get_fav_nouser object%}
+
+{% endif %}
