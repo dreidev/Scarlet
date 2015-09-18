@@ -3,12 +3,17 @@ $(document).ready(function(){
 	$(".fav-form").submit(function(event){
 	    	event.preventDefault();
             var fav_value = $("input[type=submit]").val();
-            
-            if(fav_value == "Favorite") {
-            	var form = $(this);
-           	 	var data =  new FormData(form.get(0));
+            var form = $(this);
+           	var data =  new FormData(form.get(0));
+           	if(fav_value == "Favorite") {
+           		data.append('fav_value','favorite')
+           	}
+           	else{
+
+           		data.append('fav_value','')
+         	}            
 	    		$.ajax({
-		            url: "/fav/create/fav/",
+		            url: "/fav/alter/fav/",
 		            type: "POST",
 		            data: data,
 		            cache: false,
@@ -19,38 +24,20 @@ $(document).ready(function(){
 	                  alert(json['error'])                     
 	                }
 		            	else {
-		              
-		              	$("input[type=submit]").val("Unfavorite");
+
+		            	if(fav_value == "Favorite") {
+		                    $("input[type=submit]").val("Unfavorite");
+		                  }
+		                  else{
+                             $("input[type=submit]").val("Favorite");
+		                  }
 		            	$("input[name=csrfmiddlewaretoken]").val(json['csrf'])
 						}
 		            },
 		            error: function(response) {
-		            	alert("error in favoriting")
+		            	alert("ajax error")
 		            }
-	         }); }
-	         else {
-	         	var form = $(this);
-           	 	var data =  new FormData(form.get(0));
-	         	$.ajax({
-	         		url: "/fav/delete/fav/",
-		            type: "POST",
-		            data:data,
-		            cache: false,
-		            processData: false,
-		            contentType: false,
-		            success: function(data) {
-		            	if (data['success'] == 0) {
-	                  alert(data['error'])                     
-	                }
-		            	else {
-		            	$("input[type=submit]").val("Favorite");
-		            	$("input[name=csrfmiddlewaretoken]").val(data['csrf'])}
-		            },
-		            error: function(response) {
-	            	alert("error in unfavoriting")
-	            }
-	         	})
-	         } 
+	         }); 
 
 	    }); 
 

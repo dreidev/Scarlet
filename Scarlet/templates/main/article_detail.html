@@ -7,7 +7,8 @@
 {% if user.is_authenticated %}
 
 {{user.username}}
-
+<br> 
+<br>
 {%  get_fav object user %}
 
 {% else %}
@@ -15,3 +16,7 @@
 {% get_fav_nouser object%}
 
 {% endif %}
+
+
+
+
