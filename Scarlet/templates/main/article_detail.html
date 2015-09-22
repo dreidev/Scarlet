@@ -3,11 +3,7 @@
 <h2> detailed view . </h2>
 
 {{object.title}}
-{% if user.is_authenticated %}
-{{user.username}}
-{%  get_fav object user %}
 
-<<<<<<< HEAD
 {% if user.is_authenticated %}
 
 {{user.username}}
@@ -15,18 +11,10 @@
 <br>
 {%  get_fav object user %}
 
-=======
->>>>>>> 0c393929efbeef1146ff8f0d331ac4ab7f8e3c73
+
 {% else %}
 
 {% get_fav_nouser object%}
 
-<<<<<<< HEAD
 {% endif %}
 
-
-
-
-=======
-{% endif %}
->>>>>>> 0c393929efbeef1146ff8f0d331ac4ab7f8e3c73
