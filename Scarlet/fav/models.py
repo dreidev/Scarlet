@@ -7,7 +7,7 @@ from django.contrib.contenttypes.models import ContentType
 
 class Favorite(models.Model):
 
-    """ Represents an instance of Comment """
+    """ Represents an instance of Favorite """
 
     content_type = models.ForeignKey(ContentType, null=True)
     object_id = models.PositiveIntegerField(null=True)

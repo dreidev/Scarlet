@@ -18,8 +18,11 @@ def get_app_name(object):
 
 
 def get_fav(object, user):
-    # model_object = type(object).objects.get(id=object.id)
-    # favs = model_object.favorites.all()
+    """
+    returns whether user favorited an object or not .
+    Plus a FavoriteForm of which user can alter his choice  .
+
+    """
     if Favorite.objects.filter(object_id=object.id, user=user):
         fav_value = "Unfavorite"
     else:
