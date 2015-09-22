@@ -15,6 +15,7 @@ class FavTestCase(TestCase):
         Article.objects.create(title="Lorem Ipsum", description="Lorem Ipsum")
 
     def test_fav_authenticated(self):
+        """ Test favorite for authenticated users"""
         object = Article.objects.get(id=1)
         app_name = object._meta.app_label
         model_name = object.__class__.__name__
@@ -52,6 +53,7 @@ class FavTestCase(TestCase):
         self.assertEqual(Favorite.objects.count(), init_fav_count - 1)
 
     def test_fav_unauthenticated(self):
+        """ Test favorite for unauthenticated users"""
         self.client.logout()
         object = Article.objects.get(id=1)
         app_name = object._meta.app_label
