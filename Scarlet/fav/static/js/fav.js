@@ -1,6 +1,7 @@
 $(document).ready(function(){
-	// ajax function responsible for altering value of submit button .
-	var fav_count = $("input[name=fav_count]").val();
+	/* ajax function responsible for altering value of submit button and 
+	altering favorite count */
+	var fav_count = parseInt($("input[name=fav_count]").val(),10);
 	$(".fav-form").submit(function(event){
 	    	event.preventDefault();
             var fav_value = $("input[type=submit]").val();
@@ -25,15 +26,18 @@ $(document).ready(function(){
 	                  alert(json['error'])   
 	                }
 		            	else {
-
+		            	$(".fav_count_div").empty();
 		            	if(fav_value == "Favorite") {
+		            		fav_count = fav_count+1;
 		                    $("input[type=submit]").val("Unfavorite");
 		                  }
 		                  else{
+		                  	fav_count = fav_count-1;
                             $("input[type=submit]").val("Favorite");
-
 		                  }
-		            	$("input[name=csrfmiddlewaretoken]").val(json['csrf'])
+		                $("input[name=csrfmiddlewaretoken]").val(json['csrf'])
+		                $("input[name=fav_count]").val(fav_count);
+		                $(".fav_count_div").append(fav_count);		            	
 						}
 		            },
 		            error: function(response) {

@@ -46,7 +46,6 @@ def get_fav_nouser(object):
 register.inclusion_tag('fav/fav_form.html')(get_fav_nouser)
 
 
-# @register.simple_tag(name='get_fav_count')
 def get_fav_count(object):
     """
     returns favorite count of object
