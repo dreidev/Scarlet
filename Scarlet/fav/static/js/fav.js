@@ -1,5 +1,6 @@
 $(document).ready(function(){
 	// ajax function responsible for altering value of submit button .
+	var fav_count = $("input[name=fav_count]").val();
 	$(".fav-form").submit(function(event){
 	    	event.preventDefault();
             var fav_value = $("input[type=submit]").val();
@@ -11,7 +12,7 @@ $(document).ready(function(){
            	else{
 
            		data.append('fav_value','')
-         	}            
+         	}
 	    		$.ajax({
 		            url: "/fav/alter/fav/",
 		            type: "POST",
@@ -29,7 +30,8 @@ $(document).ready(function(){
 		                    $("input[type=submit]").val("Unfavorite");
 		                  }
 		                  else{
-                             $("input[type=submit]").val("Favorite");
+                            $("input[type=submit]").val("Favorite");
+
 		                  }
 		            	$("input[name=csrfmiddlewaretoken]").val(json['csrf'])
 						}

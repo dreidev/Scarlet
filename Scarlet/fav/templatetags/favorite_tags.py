@@ -1,6 +1,7 @@
 from django import template
 from fav.forms import FavoriteForm
 from fav.models import Favorite
+from django.contrib.contenttypes.models import ContentType
 
 register = template.Library()
 
@@ -23,6 +24,7 @@ def get_fav(object, user):
     Plus a FavoriteForm of which user can alter his choice  .
 
     """
+    print "get_fav enter"
     if Favorite.objects.filter(object_id=object.id, user=user):
         fav_value = "Unfavorite"
     else:
@@ -42,3 +44,23 @@ def get_fav_nouser(object):
             "fav_value": fav_value}
 
 register.inclusion_tag('fav/fav_form.html')(get_fav_nouser)
+
+
+# @register.simple_tag(name='get_fav_count')
+def get_fav_count(object):
+    """
+    returns favorite count of object
+
+    """
+    app_name = get_app_name(object)
+    model = get_model_name(object)
+    content_type = ContentType.objects.get(
+        app_label=app_name,
+        model=model.lower())
+    try:
+        fav_count = Favorite.objects.filter(
+            content_type=content_type.id, object_id=object.id).count()
+    except:
+        fav_count = 0
+    return {"fav_count": fav_count}
+register.inclusion_tag('fav/fav_count.html')(get_fav_count)
