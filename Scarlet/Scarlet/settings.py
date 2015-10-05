@@ -27,6 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+POSITIVE_PART="vote"
+NEGATIVE_PART="unvote"
 
 # Application definition
 
