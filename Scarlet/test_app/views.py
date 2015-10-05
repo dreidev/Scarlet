@@ -5,4 +5,4 @@ from django.views.generic import DetailView
 class ArticleDetailView(DetailView):
 
     model = Article
-    template_name = "main/article_detail.html"
+    template_name = "test_app/article_detail.html"
