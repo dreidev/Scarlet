@@ -24,7 +24,6 @@ def get_fav(object, user):
     Plus a FavoriteForm of which user can alter his choice  .
 
     """
-    print "get_fav enter"
     if Favorite.objects.filter(object_id=object.id, user=user):
         fav_value = "Unfavorite"
     else:
@@ -61,5 +60,6 @@ def get_fav_count(object):
             content_type=content_type.id, object_id=object.id).count()
     except:
         fav_count = 0
-    return {"fav_count": fav_count}
+    return {"fav_count": fav_count,
+            "target": object}
 register.inclusion_tag('fav/fav_count.html')(get_fav_count)
