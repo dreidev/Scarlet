@@ -17,7 +17,7 @@ class FavAlterView(FormView):
     template_name = 'fav/fav_form.html'
 
     def form_valid(self, form):
-        user = authenticate(username="ahmed", password="1234")
+        user = authenticate(username="madara", password="1234")
         if user is not None:
             login(self.request, user)
         fav_value = self.request.POST['fav_value']
