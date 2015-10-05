@@ -2,6 +2,7 @@ from django import template
 from fav.forms import FavoriteForm
 from fav.models import Favorite
 from django.contrib.contenttypes.models import ContentType
+from django.conf import settings
 
 register = template.Library()
 
@@ -24,23 +25,32 @@ def get_fav(object, user):
     Plus a FavoriteForm of which user can alter his choice  .
 
     """
+    print "get_fav enter"
+    positive_part = settings.POSITIVE_PART
+    negative_part = settings.NEGATIVE_PART
     if Favorite.objects.filter(object_id=object.id, user=user):
-        fav_value = "Unfavorite"
+        fav_value = settings.NEGATIVE_PART
     else:
-        fav_value = "Favorite"
+        fav_value = settings.POSITIVE_PART
     return {"form": FavoriteForm(),
             "target": object,
             "user": user,
-            "fav_value": fav_value}
+            "fav_value": fav_value,
+            "positive_part": positive_part,
+            "negative_part": negative_part}
 
 register.inclusion_tag('fav/fav_form.html')(get_fav)
 
 
 def get_fav_nouser(object):
-    fav_value = "Favorite"
+    positive_part = settings.POSITIVE_PART
+    negative_part = settings.NEGATIVE_PART
+    fav_value = settings.POSITIVE_PART
     return {"form": FavoriteForm(),
             "target": object,
-            "fav_value": fav_value}
+            "fav_value": fav_value,
+            "positive_part": positive_part,
+            "negative_part": negative_part}
 
 register.inclusion_tag('fav/fav_form.html')(get_fav_nouser)
 

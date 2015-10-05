@@ -16,8 +16,7 @@ Description : {{ object.description }}
 {% else %}
 {% get_fav_nouser object%}
 {% endif %}
-
-Fav count :{% get_fav_count object%}<br><br>
+{% get_fav_count object%}<br><br>
  </li>
 {% empty %}
 <li>No articles yet.</li>
