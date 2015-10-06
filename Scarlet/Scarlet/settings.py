@@ -27,9 +27,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-POSITIVE_PART="vote"
-NEGATIVE_PART="unvote"
-
 # Application definition
 
 INSTALLED_APPS = (
@@ -113,3 +110,7 @@ STATIC_PATH = os.path.join(BASE_DIR, 'static')
 STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
 
 STATICFILES_DIRS = (STATIC_PATH,)
+
+POSITIVE_NOTATION = "Vote"
+
+NEGATIVE_NOTATION = "Unvote"
