@@ -10,14 +10,19 @@ from django.conf import settings
 
 class FavAlterView(FormView):
 
-    """ alters Favorite instance 'fav/unfav an object' """
+    """
+    Enables authenticated users to Favorite/Unfavorite objects.
+
+    """
 
     form_class = FavoriteForm
     model = Favorite
     template_name = 'fav/fav_form.html'
 
     def form_valid(self, form):
-        user = authenticate(username="madara", password="1234")
+
+        # Automatic log in for development purposes
+        user = authenticate(username="johndoe", password="1234")
         if user is not None:
             login(self.request, user)
         fav_value = self.request.POST['fav_value']
@@ -28,8 +33,7 @@ class FavAlterView(FormView):
                 model=self.request.POST['model'].lower())
             model_object = content_type.get_object_for_this_type(
                 id=self.request.POST['model_id'])
-            print fav_value
-            if fav_value == settings.POSITIVE_PART:
+            if fav_value == settings.POSITIVE_NOTATION:
                 fav = form.save(commit=False)
                 fav.content_object = model_object
                 if fav.user:
@@ -44,6 +48,4 @@ class FavAlterView(FormView):
             return JsonResponse({
                 'success': 0,
                 'error': "You have to sign in "})
-        return JsonResponse({"csrf": csrf_token_value,
-                             "positive_part": settings.POSITIVE_PART,
-                             "negative_part": settings.NEGATIVE_PART})
+        return JsonResponse({"csrf": csrf_token_value})

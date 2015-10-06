@@ -23,43 +23,39 @@ def get_fav(object, user):
     """
     returns whether user favorited an object or not .
     Plus a FavoriteForm of which user can alter his choice  .
-
     """
-    print "get_fav enter"
-    positive_part = settings.POSITIVE_PART
-    negative_part = settings.NEGATIVE_PART
+    positive_notation = settings.POSITIVE_NOTATION
+    negative_notation = settings.NEGATIVE_NOTATION
     if Favorite.objects.filter(object_id=object.id, user=user):
         fav_value = settings.NEGATIVE_PART
     else:
-        fav_value = settings.POSITIVE_PART
+        fav_value = settings.POSITIVE_NOTATION
     return {"form": FavoriteForm(),
             "target": object,
             "user": user,
             "fav_value": fav_value,
-            "positive_part": positive_part,
-            "negative_part": negative_part}
+            "positive_notation": positive_notation,
+            "negative_notation": negative_notation}
 
 register.inclusion_tag('fav/fav_form.html')(get_fav)
 
 
 def get_fav_nouser(object):
-    positive_part = settings.POSITIVE_PART
-    negative_part = settings.NEGATIVE_PART
-    fav_value = settings.POSITIVE_PART
+    """ For non-authenticated users."""
+    positive_notation = settings.POSITIVE_NOTATION
+    negative_notation = settings.POSITIVE_NOTATION
+    fav_value = settings.POSITIVE_NOTATION
     return {"form": FavoriteForm(),
             "target": object,
             "fav_value": fav_value,
-            "positive_part": positive_part,
-            "negative_part": negative_part}
+            "positive_notation": positive_notation,
+            "negative_notation": negative_notation}
 
 register.inclusion_tag('fav/fav_form.html')(get_fav_nouser)
 
 
 def get_fav_count(object):
-    """
-    returns favorite count of object
-
-    """
+    """returns favorite count of object"""
     app_name = get_app_name(object)
     model = get_model_name(object)
     content_type = ContentType.objects.get(
