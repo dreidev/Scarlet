@@ -70,5 +70,6 @@ def get_fav_count(object):
             content_type=content_type.id, object_id=object.id).count()
     except:
         fav_count = 0
-    return {"fav_count": fav_count}
+    return {"fav_count": fav_count,
+            "target": object}
 register.inclusion_tag('fav/fav_count.html')(get_fav_count)

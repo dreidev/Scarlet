@@ -1,0 +1,24 @@
+{% load favorite_tags %}
+{% load static %}
+<script src="{% static 'js/jquery.js' %}"></script>
+<script src="{% static 'js/fav.js' %}"></script>
+<h1>Articles</h1>
+<ul>
+Logged in user : {{user.username}} <br> 
+<br>
+{% for object in object_list %}
+<li>
+Title : {{ object.title}} <br><br>
+Description : {{ object.description }}
+
+{% if user.is_authenticated %}
+{%  get_fav object user %}
+{% else %}
+{% get_fav_nouser object%}
+{% endif %}
+{% get_fav_count object%}<br><br>
+ </li>
+{% empty %}
+<li>No articles yet.</li>
+{% endfor %}
+</ul>
