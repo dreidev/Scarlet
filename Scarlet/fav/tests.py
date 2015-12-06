@@ -3,6 +3,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from fav.models import Favorite
 from test_app.models import Article
+from django.conf import settings
 
 
 class FavTestCase(TestCase):
@@ -28,7 +29,7 @@ class FavTestCase(TestCase):
                 "model_id": object.id,
                 "app_name": app_name,
                 "user":  user.id,
-                "fav_value": u'favorite',
+                "fav_value": settings.POSITIVE_NOTATION,
             })
         self.assertEqual(response.status_code, 200)
         self.assertEqual(Favorite.objects.count(), init_fav_count + 1)
@@ -66,7 +67,7 @@ class FavTestCase(TestCase):
                 "model_id": object.id,
                 "app_name": app_name,
                 "user":  u'',
-                "fav_value": u'favorite',
+                "fav_value": settings.POSITIVE_NOTATION,
             })
         self.assertEqual(response.status_code, 200)
         self.assertEqual(Favorite.objects.count(), init_fav_count)

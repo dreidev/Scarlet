@@ -22,7 +22,7 @@ class FavAlterView(FormView):
     def form_valid(self, form):
 
         # Automatic log in for development purposes
-        user = authenticate(username="johndoe", password="1234")
+        user = authenticate(username="madara", password="1234")
         if user is not None:
             login(self.request, user)
         fav_value = self.request.POST['fav_value']

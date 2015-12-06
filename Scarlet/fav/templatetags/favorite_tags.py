@@ -27,7 +27,7 @@ def get_fav(object, user):
     positive_notation = settings.POSITIVE_NOTATION
     negative_notation = settings.NEGATIVE_NOTATION
     if Favorite.objects.filter(object_id=object.id, user=user):
-        fav_value = settings.NEGATIVE_PART
+        fav_value = settings.NEGATIVE_NOTATION
     else:
         fav_value = settings.POSITIVE_NOTATION
     return {"form": FavoriteForm(),
