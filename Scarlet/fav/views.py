@@ -21,10 +21,6 @@ class FavAlterView(FormView):
 
     def form_valid(self, form):
 
-        # Automatic log in for development purposes
-        user = authenticate(username="madara", password="1234")
-        if user is not None:
-            login(self.request, user)
         fav_value = self.request.POST['fav_value']
         csrf_token_value = get_token(self.request)
         try:
@@ -34,16 +30,27 @@ class FavAlterView(FormView):
             model_object = content_type.get_object_for_this_type(
                 id=self.request.POST['model_id'])
             if fav_value == settings.POSITIVE_NOTATION:
+                print "What is going on"
                 fav = form.save(commit=False)
                 fav.content_object = model_object
                 if fav.user:
                     fav.save()
+                    print settings.ALLOW_ANONYMOUS
+                elif settings.ALLOW_ANONYMOUS == "True":
+                    fav.cookie = request.session.session_key
+                    fav.save()
                 Favorite.objects.get(id=fav.id)
             else:
-                Favorite.objects.get(
-                    object_id=model_object.id,
-                    user=self.request.user,
-                    content_type=content_type).delete()
+                if self.request.user:
+                    Favorite.objects.get(
+                        object_id=model_object.id,
+                        user=self.request.user,
+                        content_type=content_type).delete()
+                elif settings.ALLOW_ANONYMOUS == "True":
+                    Favorite.objects.get(
+                        object_id=model_object.id,
+                        cookie=self.session.session_key,
+                        content_type=content_type).delete()
         except:
             return JsonResponse({
                 'success': 0,
