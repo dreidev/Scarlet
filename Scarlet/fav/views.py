@@ -37,7 +37,7 @@ class FavAlterView(FormView):
                     fav.save()
                     print settings.ALLOW_ANONYMOUS
                 elif settings.ALLOW_ANONYMOUS == "True":
-                    fav.cookie = request.session.session_key
+                    fav.cookie = self.request.session.session_key
                     fav.save()
                 Favorite.objects.get(id=fav.id)
             else:

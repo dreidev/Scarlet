@@ -115,4 +115,4 @@ POSITIVE_NOTATION = "favorite"
 
 NEGATIVE_NOTATION = "unfavorite"
 
-ALLOW_ANONYMOUS = "False"
+ALLOW_ANONYMOUS = "True"
