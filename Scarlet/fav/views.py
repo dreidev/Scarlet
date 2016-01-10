@@ -20,7 +20,6 @@ class FavAlterView(FormView):
     template_name = 'fav/fav_form.html'
 
     def form_valid(self, form):
-
         fav_value = self.request.POST['fav_value']
         csrf_token_value = get_token(self.request)
         try:

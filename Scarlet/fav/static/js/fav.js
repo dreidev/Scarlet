@@ -19,7 +19,6 @@ $(document).ready(function(){
        		data.append('fav_value',positive_notation);
        	}
        	else{
-
        		data.append('fav_value',negative_notation);
      	}
     		$.ajax({
