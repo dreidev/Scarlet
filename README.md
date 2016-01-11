@@ -117,3 +117,15 @@ POSITIVE_NOTATION = "Follow"
 NEGATIVE_NOTATION = "Unfollow"
 
 ```
+###Anonymous Users
+
+Normally unauthenticated, anonymous users are allowed to use the app's functionality .
+
+In settings .. 
+
+```python
+
+ALLOW_ANONYMOUS = "TRUE"
+
+```
+to give only authenticated user this privilege this line should be omitted.
