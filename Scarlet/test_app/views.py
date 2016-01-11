@@ -1,7 +1,7 @@
 from models import Article
 from django.views.generic import DetailView
 from django.views.generic.list import ListView
-from django.template import RequestContext
+
 
 class ArticleDetailView(DetailView):
 

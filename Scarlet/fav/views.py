@@ -32,7 +32,9 @@ class FavAlterView(FormView):
             if fav_value == settings.POSITIVE_NOTATION:
                 fav = form.save(commit=False)
                 fav.content_object = model_object
-                if not fav.user:
+                if self.request.user.is_authenticated():
+                    fav.save()
+                else:
                     if settings.ALLOW_ANONYMOUS == "TRUE":
                         fav.cookie = self.request.session.session_key
                         fav.save()
@@ -40,8 +42,6 @@ class FavAlterView(FormView):
                         return JsonResponse({
                             'success': 0,
                             'error': "You have to sign in "})
-                else:
-                    fav.save()
                 Favorite.objects.get(id=fav.id)
             else:
                 if self.request.user.is_authenticated():
@@ -59,3 +59,8 @@ class FavAlterView(FormView):
                 'success': 0,
                 'error': "You have to sign in "})
         return JsonResponse({"csrf": csrf_token_value})
+
+    def form_invalid(self, form):
+        return JsonResponse({
+            'success': 0,
+            'error': form.errors})
