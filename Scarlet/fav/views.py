@@ -30,25 +30,26 @@ class FavAlterView(FormView):
             model_object = content_type.get_object_for_this_type(
                 id=self.request.POST['model_id'])
             if fav_value == settings.POSITIVE_NOTATION:
-                print "//////// WAS POSITIVE /////////////"
                 fav = form.save(commit=False)
                 fav.content_object = model_object
-                if fav.user:
-                    fav.save()
-                elif settings.ALLOW_ANONYMOUS == "True":
-                    fav.cookie = self.request.session.session_key
+                if not fav.user:
+                    if settings.ALLOW_ANONYMOUS == "TRUE":
+                        fav.cookie = self.request.session.session_key
+                        fav.save()
+                    else:
+                        return JsonResponse({
+                            'success': 0,
+                            'error': "You have to sign in "})
+                else:
                     fav.save()
                 Favorite.objects.get(id=fav.id)
             else:
-                print "//////// WAS NEGATIVE /////////////"
                 if self.request.user.is_authenticated():
-                    print "//////// HALLO  /////////////"
                     Favorite.objects.get(
                         object_id=model_object.id,
                         user=self.request.user,
                         content_type=content_type).delete()
-                elif settings.ALLOW_ANONYMOUS == "True":
-                    print "//////// SUCCESS  /////////////"
+                elif settings.ALLOW_ANONYMOUS == "TRUE":
                     Favorite.objects.get(
                         object_id=model_object.id,
                         cookie=self.request.session.session_key,
