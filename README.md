@@ -47,12 +47,17 @@ urlpatterns = patterns('',
 
 
 ##Migrations for Django 1.7 and later
+migrate app models
+```python
+python manage.py migrate
+```
+
 
 
 ##Setup
 
 ###Step 1
-In your models.py add the field comments to the model for which favorite signature should be added (e.g. Blog) and the appropriate imports as shown below
+In your models.py add the field favorites to the model for which favorite functionality should be added (e.g. Blog) and the appropriate imports as shown below
 
 ```python
 from django.contrib.contenttypes.fields import GenericRelation
@@ -62,22 +67,21 @@ class Blog(models.Model):
 	author = models.ForeignKey(User)
 	title = models.CharField(max_length=256)
 	body = models.TextField()
-	comments = GenericRelation(Favorite)
+	favorites = GenericRelation(Favorite)
 ```
 
 ###Step 2
 In your template (e.g. blog-detail.html) add the following template tags where object is the instance of blog.
 
 ```python
-{% load favorite_tags %}  # Loading the template tag
-{% get_fav_count object %}  # Include the number of people 'favorited' a certain object
+{% load favorite_tags %}  <!-- Loading the template tag -->
+{% get_fav_count object %}  <!-- Include the number of people 'favorited' a certain object -->
 
-# authentication is required for users to use our functionality, however there's an implemented tag for unauthenticated users.
-example .. 
+<!-- authentication is required for users to use our functionality, however there's an implemented tag for unauthenticated users -->
 {% if user.is_authenticated %} 
-{%  get_fav object user %}  # for unauthenticated users
+	{%  get_fav object user %}  <!-- for unauthenticated users -->
 {% else %}
-{% get_fav_nouser object%} # for authenticated users
+	{% get_fav_nouser object request %} <!-- for authenticated users -->
 {% endif %}
 ```
 
@@ -87,7 +91,7 @@ It should be added after `{%  load favorite_tags %}` directly
 {%  load favorite_tags %}
 {% include_jQuery %}
 ```
- Also java script files, static, should be added for ajax to work
+ Also static files should be added for ajax to work
  ```python
 {% load static %}
 <script src="{% static 'js/fav.js' %}">
@@ -117,15 +121,14 @@ POSITIVE_NOTATION = "Follow"
 NEGATIVE_NOTATION = "Unfollow"
 
 ```
-###Anonymous Users
+###ALLOW_ANONYMOUS
 
-Normally unauthenticated, anonymous users are allowed to use the app's functionality .
+By default anonymous users are not allowed to use the app's functionality. However, you can change that by setting ALLOW_ANONYMOUS.
 
-In settings .. 
+In `settings.py` .. 
 
 ```python
 
 ALLOW_ANONYMOUS = "TRUE"
 
 ```
-to give only authenticated user this privilege this line should be omitted.
