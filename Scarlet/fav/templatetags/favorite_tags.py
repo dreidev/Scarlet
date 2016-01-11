@@ -44,7 +44,7 @@ def get_fav_nouser(object, request):
     """ For non-authenticated users."""
     anonymous_permission = settings.ALLOW_ANONYMOUS
     positive_notation = settings.POSITIVE_NOTATION
-    negative_notation = settings.POSITIVE_NOTATION
+    negative_notation = settings.NEGATIVE_NOTATION
     if not request.session.exists(request.session.session_key):
         request.session.create()
     print request.session.session_key

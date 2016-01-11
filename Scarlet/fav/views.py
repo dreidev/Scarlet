@@ -30,6 +30,7 @@ class FavAlterView(FormView):
             model_object = content_type.get_object_for_this_type(
                 id=self.request.POST['model_id'])
             if fav_value == settings.POSITIVE_NOTATION:
+                print "//////// WAS POSITIVE /////////////"
                 fav = form.save(commit=False)
                 fav.content_object = model_object
                 if fav.user:
@@ -39,15 +40,18 @@ class FavAlterView(FormView):
                     fav.save()
                 Favorite.objects.get(id=fav.id)
             else:
-                if self.request.user:
+                print "//////// WAS NEGATIVE /////////////"
+                if self.request.user.is_authenticated():
+                    print "//////// HALLO  /////////////"
                     Favorite.objects.get(
                         object_id=model_object.id,
                         user=self.request.user,
                         content_type=content_type).delete()
                 elif settings.ALLOW_ANONYMOUS == "True":
+                    print "//////// SUCCESS  /////////////"
                     Favorite.objects.get(
                         object_id=model_object.id,
-                        cookie=self.session.session_key,
+                        cookie=self.request.session.session_key,
                         content_type=content_type).delete()
         except:
             return JsonResponse({
