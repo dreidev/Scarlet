@@ -19,14 +19,12 @@ $(document).ready(function(){
        		data.append('fav_value',positive_notation);
        	}
        	else{
-
        		data.append('fav_value',negative_notation);
      	}
     		$.ajax({
 	            url: "/fav/alter/fav/",
 	            type: "POST",
 	            data: data,
-	            cache: false,
 	            processData: false,
 	            contentType: false,
 	            success: function(json) {

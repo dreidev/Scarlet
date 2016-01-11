@@ -24,32 +24,45 @@ def get_fav(object, user):
     returns whether user favorited an object or not .
     Plus a FavoriteForm of which user can alter his choice  .
     """
-    positive_notation = settings.POSITIVE_NOTATION
-    negative_notation = settings.NEGATIVE_NOTATION
     if Favorite.objects.filter(object_id=object.id, user=user):
-        fav_value = settings.NEGATIVE_PART
+        fav_value = settings.NEGATIVE_NOTATION
     else:
         fav_value = settings.POSITIVE_NOTATION
     return {"form": FavoriteForm(),
             "target": object,
             "user": user,
             "fav_value": fav_value,
-            "positive_notation": positive_notation,
-            "negative_notation": negative_notation}
+            "positive_notation": settings.POSITIVE_NOTATION,
+            "negative_notation": settings.NEGATIVE_NOTATION}
 
 register.inclusion_tag('fav/fav_form.html')(get_fav)
 
 
-def get_fav_nouser(object):
+def get_fav_nouser(object, request):
     """ For non-authenticated users."""
-    positive_notation = settings.POSITIVE_NOTATION
-    negative_notation = settings.POSITIVE_NOTATION
-    fav_value = settings.POSITIVE_NOTATION
-    return {"form": FavoriteForm(),
-            "target": object,
-            "fav_value": fav_value,
-            "positive_notation": positive_notation,
-            "negative_notation": negative_notation}
+    if not request.session.exists(request.session.session_key):
+        request.session.create()
+    if settings.ALLOW_ANONYMOUS == "TRUE":
+        if Favorite.objects.filter(object_id=object.id,
+                                   cookie=request.session.session_key):
+            fav_value = settings.NEGATIVE_NOTATION
+        else:
+            fav_value = settings.POSITIVE_NOTATION
+        return {"form": FavoriteForm(),
+                "target": object,
+                "fav_value": fav_value,
+                "positive_notation": settings.POSITIVE_NOTATION,
+                "negative_notation": settings.NEGATIVE_NOTATION,
+                "cookie": request.session.session_key}
+    else:
+        fav_value = settings.POSITIVE_NOTATION
+        return {"form": FavoriteForm(),
+                "target": object,
+                "fav_value": fav_value,
+                "positive_notation": settings.POSITIVE_NOTATION,
+                "negative_notation": settings.NEGATIVE_NOTATION,
+                "cookie": "no_cookie"}
+
 
 register.inclusion_tag('fav/fav_form.html')(get_fav_nouser)
 

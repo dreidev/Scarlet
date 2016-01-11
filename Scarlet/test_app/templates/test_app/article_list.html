@@ -14,7 +14,7 @@ Description : {{ object.description }}
 {% if user.is_authenticated %}
 {%  get_fav object user %}
 {% else %}
-{% get_fav_nouser object%}
+{% get_fav_nouser object request %}
 {% endif %}
 {% get_fav_count object%}<br><br>
  </li>
