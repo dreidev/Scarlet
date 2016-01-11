@@ -12,7 +12,7 @@
 		{% if user.is_authenticated %}
 		<input id="id_user" name="user" value="{% if user.is_authenticated %}{{ user.id }}{% endif %}" hidden>
 		{% else %}
-		<input id="id_user_anonymous" name="user_anonymous" value="" hidden>
+		<input id="id_cookie" name="cookie" value="{{cookie}}" hidden>
 		{% endif %}
 		<input  id="fav-button{{target.id}}" type="button" object="{{target.id}}" value="{{fav_value}}" class="fav-button"/>
 	</form>

@@ -47,6 +47,7 @@ def get_fav_nouser(object, request):
     negative_notation = settings.POSITIVE_NOTATION
     if not request.session.exists(request.session.session_key):
         request.session.create()
+    print request.session.session_key
     if anonymous_permission == "True":
         if Favorite.objects.filter(object_id=object.id, cookie=request.session.session_key):
             fav_value = settings.NEGATIVE_NOTATION
@@ -57,7 +58,7 @@ def get_fav_nouser(object, request):
                 "fav_value": fav_value,
                 "positive_notation": positive_notation,
                 "negative_notation": negative_notation,
-                "cookie":request.session.session_key}
+                "cookie": request.session.session_key}
     else:
         fav_value = settings.POSITIVE_NOTATION
         return {"form": FavoriteForm(),
@@ -65,7 +66,7 @@ def get_fav_nouser(object, request):
                 "fav_value": fav_value,
                 "positive_notation": positive_notation,
                 "negative_notation": negative_notation}
-        
+
 
 register.inclusion_tag('fav/fav_form.html')(get_fav_nouser)
 
