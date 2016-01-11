@@ -20,8 +20,11 @@ class FavAlterView(FormView):
     template_name = 'fav/fav_form.html'
 
     def form_valid(self, form):
+        print "/////////////////////////////////////"
         fav_value = self.request.POST['fav_value']
         csrf_token_value = get_token(self.request)
+        if not self.request.session.exists(request.session.session_key):
+            request.session.create()
         try:
             content_type = ContentType.objects.get(
                 app_label=self.request.POST['app_name'],
@@ -29,12 +32,12 @@ class FavAlterView(FormView):
             model_object = content_type.get_object_for_this_type(
                 id=self.request.POST['model_id'])
             if fav_value == settings.POSITIVE_NOTATION:
-                print "What is going on"
+            #    print "What is going on"
                 fav = form.save(commit=False)
                 fav.content_object = model_object
                 if fav.user:
                     fav.save()
-                    print settings.ALLOW_ANONYMOUS
+            #        print settings.ALLOW_ANONYMOUS
                 elif settings.ALLOW_ANONYMOUS == "True":
                     fav.cookie = self.request.session.session_key
                     fav.save()

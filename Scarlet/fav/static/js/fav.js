@@ -25,7 +25,6 @@ $(document).ready(function(){
 	            url: "/fav/alter/fav/",
 	            type: "POST",
 	            data: data,
-	            cache: false,
 	            processData: false,
 	            contentType: false,
 	            success: function(json) {
