@@ -2,7 +2,7 @@
 
 `django-ajax-favorite-like` is a favoriting/liking application for Django-powered websites.
 
-It give you the ability integrate favoriting functionality to any model you have eg. blogs, pictures, etc..
+It gives you the ability integrate favoriting functionality to any model you have eg. blogs, pictures, etc..
 
 In addition, related functionalities like thumbs up, vote, like, follow are also supported.
 
@@ -123,12 +123,26 @@ NEGATIVE_NOTATION = "Unfollow"
 ```
 ###ALLOW_ANONYMOUS
 
-By default anonymous users are not allowed to use the app's functionality. However, you can change that by setting ALLOW_ANONYMOUS.
+By default anonymous users are allowed to use the app's functionality. However, you can change that by setting ALLOW_ANONYMOUS to FALSE.
 
 In `settings.py` .. 
 
 ```python
 
+ALLOW_ANONYMOUS = "FALSE"
+
+```
+###DEFAULT
+Default values are  
+
+```python
+#for example .. 
+
+POSITIVE_NOTATION = "Favorite"
+
+NEGATIVE_NOTATION = "Unfavorite"
+
 ALLOW_ANONYMOUS = "TRUE"
+
 
 ```
