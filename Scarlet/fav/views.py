@@ -4,14 +4,15 @@ from django.contrib.contenttypes.models import ContentType
 from django.http import JsonResponse
 from django.views.generic.edit import FormView
 from django.middleware.csrf import get_token
-from django.conf import settings
-
+from django.conf import settings 
 
 class FavAlterView(FormView):
 
     """
     Enables authenticated users to Favorite/Unfavorite objects.
-
+        getattr method sets default values for POSITIVE_NOTATION, 
+    NEGATIVE_NOTATION, ALLOW_ANONYMOUS in the case they are not
+    set in settings.py
     """
 
     form_class = FavoriteForm
@@ -29,13 +30,13 @@ class FavAlterView(FormView):
                 model=self.request.POST['model'].lower())
             model_object = content_type.get_object_for_this_type(
                 id=self.request.POST['model_id'])
-            if fav_value == settings.POSITIVE_NOTATION:
+            if fav_value == getattr(settings, 'POSITIVE_NOTATION', 'Favorite'):
                 fav = form.save(commit=False)
                 fav.content_object = model_object
                 if self.request.user.is_authenticated():
                     fav.save()
                 else:
-                    if settings.ALLOW_ANONYMOUS == "TRUE":
+                    if getattr(settings, 'ALLOW_ANONYMOUS', 'TRUE') == "TRUE":
                         fav.cookie = self.request.session.session_key
                         fav.save()
                     else:
@@ -49,7 +50,7 @@ class FavAlterView(FormView):
                         object_id=model_object.id,
                         user=self.request.user,
                         content_type=content_type).delete()
-                elif settings.ALLOW_ANONYMOUS == "TRUE":
+                elif getattr(settings, 'ALLOW_ANONYMOUS', 'TRUE') == "TRUE":
                     Favorite.objects.get(
                         object_id=model_object.id,
                         cookie=self.request.session.session_key,
